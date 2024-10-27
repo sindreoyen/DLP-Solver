@@ -3,9 +3,10 @@
 # _authors_: Vozec
 # _date_ : 31/10/2022
 
-import argparse,threading
+import threading
 from utils.utils  import *
 from utils.logger import *
+from gmpy2 import mpz
 
 
 class thread_stop:
@@ -15,7 +16,7 @@ class thread_stop:
 		self.is_cancelled = True
 
 def main(args):
-	g,h,p = args.g,args.h,args.p
+	g, h, p = mpz(args.g), mpz(args.h), mpz(args.p)
 	logger('Trying to solve the discrete log problem : %s = %s^x mod %s'%(h,g,p),'',1,1,True)
 
 	all_algo = Load_modules('./modules',globals())
@@ -23,11 +24,10 @@ def main(args):
 	factors = Get_all_factors(p-1)
 	logger('Factors of p-1 : %s\n'%(factors),'',1,1,True)
 
-
 	all_thread = []
 	stopper = thread_stop()
 
-	for name,algo in all_algo.items():		
+	for name, algo in all_algo.items():		
 		logger('[+] Starting %s algorithm '%name,'info',0,0)
 		t1 = threading.Thread(target=algo.run, args = (stopper,name,g,h,p,factors))
 		all_thread.append(t1)

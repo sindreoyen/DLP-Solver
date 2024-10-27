@@ -19,7 +19,7 @@ def header():
 """,'log',0,0)
 
 def parse_args():
-	parser = argparse.ArgumentParser(add_help=False, description='This tool automates the resolution of the discrete logarithm problem: h=(g^x)\%p')
+	parser = argparse.ArgumentParser(add_help=False, description='This tool automates the resolution of the discrete logarithm problem: h=(g^x) % p')
 	parser.add_argument("-g",dest="g",type=int,required=True, help="g")
 	parser.add_argument("-h",dest="h",type=int,required=True, help="h")
 	parser.add_argument("-p",dest="p",type=int,required=True, help="p")
@@ -30,7 +30,7 @@ def Load_modules(path, env):
 		result = set()
 		for entry in os.listdir(path):
 			if os.path.isfile(os.path.join(path, entry)):
-				regexp_result = re.search("(.+)\.py(c?)$", entry)
+				regexp_result = re.search("(.+).py(c?)$", entry)
 				if regexp_result: # is a module file name
 					result.add(regexp_result.groups()[0])
 		return result
@@ -59,7 +59,7 @@ def Get_all_factors(m):
 		return Format_Factors(factors)
 
 	factors = []
-	for x,y in f.get_factor_from_api():
+	for x, y in f.get_factor_from_api():
 		for _ in range(y):
 			factors.append(int(x))
 	if math.prod(factors) == m:

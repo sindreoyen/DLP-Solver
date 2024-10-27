@@ -45,7 +45,6 @@ def logger(message,context=None,newline=0,tab=0,notime=False):
     final += bcolors.ENDC
     print(final)
 
-
 def found_x(stop,method,x):
     if(not stop.is_cancelled):
         stop.cancel()
