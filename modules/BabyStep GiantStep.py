@@ -2,29 +2,32 @@
 # -*- coding: utf-8 -*-
 # _authors_: Vozec
 # _date_ : 31/10/2022
+# edited by: sindreoyen, oct 2024
 
 from utils.logger import found_x
-from sympy import ceiling,isprime,sqrt
+from sympy import ceiling, isprime, sqrt
+import gmpy2 as gmpy
+from gmpy2 import mpz
 
-def run(stop,name,g,h,p,factors):	
+def run(stop, name, g, h, p, _):	
 	if(not isprime(p)):
 		return None
 
-	n 	= int(ceiling(sqrt(p - 1)))
+	n = mpz(ceiling(sqrt(p-1)))
 	
-	for _ in range(n):
+	for i in range(n):
 		if(stop.is_cancelled):
 			return None
-		ref = {pow(g, _, p): _}
+		ref = { gmpy.powmod(g, i, p): i }
 
-	c 	= pow(g, n * (p - 2), p)
+	c = gmpy.powmod(g, n * (p - 2), p)
 
 	for j in range(n):
 		if(stop.is_cancelled):return None
 
-		_ = (pow(c, j, p) * h) % p
-		if _ in ref:
-			x = ref[_] + n * j
+		val = gmpy.f_mod(mpz(gmpy.powmod(c, j, p) * h), p)
+		if val in ref:
+			x = ref[val] + n * j
 			return found_x(stop,name,x)
 
 	return None

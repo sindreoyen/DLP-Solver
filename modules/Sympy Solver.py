@@ -6,8 +6,7 @@
 from utils.logger import found_x
 from sympy.ntheory.residue_ntheory import discrete_log
 
-
-def run(stop,name,g,h,p,all_factor):
+def run(stop, name, g, h, p, _):
 	try:
 		return found_x(stop,name,discrete_log(p, h, g))
 	except Exception as ex:
